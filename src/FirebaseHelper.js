@@ -10,6 +10,8 @@ const {
 	addDoc,
 	updateDoc,
 	deleteDoc,
+	query,
+	where,
 	Timestamp,
 } = firebaseFirestore;
 
@@ -32,14 +34,15 @@ module.exports = class FirebaseHelper {
 		}));
 
 		return resultList;
-	}
+	};
 
 	getById = (collectionName, id) => {
 		const docRef = this.getDocRefById(collectionName, id);
 		return getDoc(docRef).then((doc) => ({ id: doc.id, ...doc.data() }));
 	};
 
-	getDocRefById = (collectionName, id) => doc(this.#firestore, collectionName, id);	
+	getDocRefById = (collectionName, id) =>
+		doc(this.#firestore, collectionName, id);
 
 	post = (collectionName, obj) =>
 		addDoc(collection(this.#firestore, collectionName), {
@@ -56,7 +59,26 @@ module.exports = class FirebaseHelper {
 	delete = (collectionName, id) => {
 		const docRef = this.getDocRefById(collectionName, id);
 		return deleteDoc(docRef);
-	}
+	};
+
+	search = async (collectionName, searchParams = []) => {
+		const collectionRef = collection(this.#firestore, collectionName);
+		let searchParamsArray = [];
+		searchParams.forEach(({ field, operator, value }) =>
+			searchParamsArray.push(where(field, operator, value))
+		);
+		
+		let q = query(collectionRef, ...searchParamsArray);
+		// console.log('searchParamsArray', searchParamsArray)
+		const snapshot = await getDocs(q);
+		const resultList = snapshot.docs.map((doc) => ({
+			id: doc.id,
+			// ref: doc.ref,
+			...doc.data(),
+		}));
+
+		return resultList;		
+	};
 
 	get app() {
 		return this.#app;
