@@ -1,0 +1,24 @@
+{
+  "name": "@grazzianixf/firebase-helper",
+  "version": "10.4.0",
+  "description": "Helper for firebase tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://grazzianixf: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@github.com/grazzianixf/firebase-helper.git"
+  },
+  "keywords": [
+    "firebase",
+    "gxf",
+    "helper"
+  ],
+  "author": "Grazziani Xavier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grazzianixf/firebase-helper/issues"
+  },
+  "homepage": "https://github.com/grazzianixf/firebase-helper#readme"
+}
