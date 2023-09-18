@@ -1,6 +1,6 @@
 {
   "name": "@grazzianixf/firebase-helper",
-  "version": "10.4.0.1",
+  "version": "10.4.0-1",
   "description": "Helper for firebase tools",
   "main": "src/index.js",
   "scripts": {
