@@ -44,6 +44,23 @@ module.exports = class FirebaseHelper {
 	getDocRefById = (collectionName, id) =>
 		doc(this.#firestore, collectionName, id);
 
+	getByPath = async (...pathSegments) => {
+		// const docsRef = this.getDocsRefByPath(...pathSegments);
+		// return getDocs()
+		const collectionRef = collection(this.#firestore, ...pathSegments);
+		const snapshot = await getDocs(collectionRef);
+		const resultList = snapshot.docs.map((doc) => ({
+			id: doc.id,
+			// ref: doc.ref,
+			...doc.data(),
+		}));
+
+		return resultList;		
+	}
+
+	// getDocsRefByPath = (...pathSegments) =>
+	// 	doc(this.#firestore, ...pathSegments);
+
 	post = (collectionName, obj) =>
 		addDoc(collection(this.#firestore, collectionName), {
 			...obj,
