@@ -1,6 +1,8 @@
 const firebaseApp = require("firebase/app");
-const { initializeApp } = firebaseApp;
 const firebaseFirestore = require("firebase/firestore");
+
+const { initializeApp } = firebaseApp;
+
 const {
 	getFirestore,
 	collection,
@@ -14,6 +16,7 @@ const {
 	where,
 	Timestamp,
 } = firebaseFirestore;
+
 
 module.exports = class FirebaseHelper {
 	#app = null;
@@ -36,17 +39,15 @@ module.exports = class FirebaseHelper {
 		return resultList;
 	};
 
-	getById = (collectionName, id) => {
-		const docRef = this.getDocRefById(collectionName, id);
+	getById = (collectionName, ...pathSegments) => {
+		const docRef = this.getDocRefById(collectionName, ...pathSegments);
 		return getDoc(docRef).then((doc) => ({ id: doc.id, ...doc.data() }));
 	};
 
-	getDocRefById = (collectionName, id) =>
-		doc(this.#firestore, collectionName, id);
+	getDocRefById = (collectionName, ...pathSegments) =>
+		doc(this.#firestore, collectionName, ...pathSegments);
 
-	getByPath = async (...pathSegments) => {
-		// const docsRef = this.getDocsRefByPath(...pathSegments);
-		// return getDocs()
+	getDocsByPath = async (...pathSegments) => {
 		const collectionRef = collection(this.#firestore, ...pathSegments);
 		const snapshot = await getDocs(collectionRef);
 		const resultList = snapshot.docs.map((doc) => ({
@@ -58,23 +59,20 @@ module.exports = class FirebaseHelper {
 		return resultList;		
 	}
 
-	// getDocsRefByPath = (...pathSegments) =>
-	// 	doc(this.#firestore, ...pathSegments);
-
-	post = (collectionName, obj) =>
-		addDoc(collection(this.#firestore, collectionName), {
+	post = (collectionName, obj, ...pathSegments) =>
+		addDoc(collection(this.#firestore, collectionName, ...pathSegments), {
 			...obj,
 			created: Timestamp.now(),
 		});
 
-	put = (collectionName, obj) => {
+	put = (collectionName, obj, ...pathSegments) => {
 		const { id, ...rest } = obj;
-		const docRef = this.getDocRefById(collectionName, id);
+		const docRef = this.getDocRefById(collectionName, ...pathSegments);
 		return updateDoc(docRef, { ...rest, updated: Timestamp.now() });
 	};
 
-	delete = (collectionName, id) => {
-		const docRef = this.getDocRefById(collectionName, id);
+	delete = (collectionName, ...pathSegments) => {
+		const docRef = this.getDocRefById(collectionName, ...pathSegments);
 		return deleteDoc(docRef);
 	};
 
@@ -104,4 +102,5 @@ module.exports = class FirebaseHelper {
 	get firestore() {
 		return this.#firestore;
 	}
+
 };
