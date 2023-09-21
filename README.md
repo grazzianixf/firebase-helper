@@ -3,7 +3,11 @@
 ## Example
 
 ```
-import { FirebaseHelper } from "@grazzianixf/firebase-helper";
+import {
+  FirestoreHelper,
+  AuthHelper,
+  InitializeHelper,
+} from "@grazzianixf/firebase-helper";
 
 const firebaseConfig = {
   apiKey: "*",
@@ -15,5 +19,7 @@ const firebaseConfig = {
   appId: "*****",
 };
 
-export const firebaseHelper = new FirebaseHelper(firebaseConfig);
+const { app } = new InitializeHelper(firebaseConfig);
+export const authHelper = new AuthHelper(app);
+export const firestoreHelper = new FirestoreHelper(app);
 ```
