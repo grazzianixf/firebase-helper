@@ -18,7 +18,17 @@ module.exports = class AuthHelper {
 			(userCredential) => Promise.resolve(new SignInResponse(userCredential))
 		);
 
-	onAuthChange = (...args) => onAuthStateChanged(this.#auth, ...args);
+	onAuthChange = (callback) => onAuthStateChanged(this.#auth, (user) => {
+      const isLogged = null;
+
+      if (user) {
+        isLogged = true;
+      } else {
+         isLogged = false;
+      }
+      
+      callback(isLogged, user);
+   });
 
 	logout = (_) => signOut(this.#auth);
 };
