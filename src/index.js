@@ -1,7 +1,9 @@
 const FirestoreHelper = require("./FirestoreHelper");
 const AuthHelper = require("./AuthHelper");
+const InitializeHelper = require("./InitializeHelper");
 
 module.exports = {
-	FirestoreHelper,
-	AuthHelper
+   InitializeHelper,
+	AuthHelper,
+	FirestoreHelper
 };

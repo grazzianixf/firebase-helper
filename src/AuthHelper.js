@@ -1,16 +1,14 @@
-const firebaseApp = require("firebase/app");
 const firebaseAuth = require("firebase/auth");
 const SignInResponse = require("./SignInResponse");
 
-const { initializeApp } = firebaseApp;
-const { getAuth, signInWithEmailAndPassword } = firebaseAuth;
+const { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } = firebaseAuth;
 
 module.exports = class AuthHelper {
 	#app = null;
 	#auth = null;
 
-	constructor(firebaseConfig) {
-		this.#app = initializeApp(firebaseConfig);
+	constructor(app) {
+		this.#app = app
 		this.#auth = getAuth(this.#app);
 	}
 
@@ -18,4 +16,7 @@ module.exports = class AuthHelper {
 		signInWithEmailAndPassword(this.#auth, email, password).then(
 			(userCredential) => Promise.resolve(new SignInResponse(userCredential))
 		);
+
+   // logout TODO
+   // onAuthStateChanged TODO
 };

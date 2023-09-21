@@ -1,7 +1,4 @@
-const firebaseApp = require("firebase/app");
 const firebaseFirestore = require("firebase/firestore");
-
-const { initializeApp } = firebaseApp;
 
 const {
 	getFirestore,
@@ -22,8 +19,8 @@ module.exports = class FirestoreHelper {
 	#app = null;
 	#firestore = null;
 
-	constructor(firebaseConfig) {
-		this.#app = initializeApp(firebaseConfig);
+	constructor(app) {
+		this.#app = app
 		this.#firestore = getFirestore(this.#app);
 	}
 
