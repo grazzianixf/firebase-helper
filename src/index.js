@@ -1,5 +1,5 @@
-const FirebaseHelper = require("./FirebaseHelper")
+const FirestoreHelper = require("./FirestoreHelper")
 
 module.exports = { 
-   FirebaseHelper
+   FirestoreHelper
 };

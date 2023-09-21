@@ -18,7 +18,7 @@ const {
 } = firebaseFirestore;
 
 
-module.exports = class FirebaseHelper {
+module.exports = class FirestoreHelper {
 	#app = null;
 	#firestore = null;
 
