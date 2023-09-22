@@ -1,5 +1,6 @@
 const firebaseAuth = require("firebase/auth");
 const SignInResponse = require("./SignInResponse");
+const User = require("./User");
 
 const { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } =
 	firebaseAuth;
@@ -19,7 +20,7 @@ module.exports = class AuthHelper {
 		);
 
 	onAuthChange = (callback) => onAuthStateChanged(this.#auth, (user) => {
-      const isLogged = null;
+      let isLogged = null;
 
       if (user) {
         isLogged = true;
@@ -27,7 +28,7 @@ module.exports = class AuthHelper {
          isLogged = false;
       }
       
-      callback(isLogged, user);
+      callback(isLogged, new User(user));
    });
 
 	logout = (_) => signOut(this.#auth);
