@@ -8,6 +8,7 @@ const { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } =
 module.exports = class AuthHelper {
 	#app = null;
 	#auth = null;
+	#user = null;
 
 	constructor(app) {
 		this.#app = app;
@@ -20,16 +21,18 @@ module.exports = class AuthHelper {
 		);
 
 	onAuthChange = (callback) => onAuthStateChanged(this.#auth, (user) => {
-      let isLogged = null;
+		let isLogged = null;
 
-      if (user) {
-        isLogged = true;
-      } else {
-         isLogged = false;
-      }
-      
-      callback(isLogged, new User(user));
-   });
+		if (user) {
+			isLogged = true;
+			this.#user = user;
+		} else {
+			isLogged = false;
+			this.#user = null;
+		}
+
+		callback && callback(isLogged, new User(user));
+	});
 
 	logout = (_) => signOut(this.#auth);
 };
