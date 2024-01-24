@@ -2,7 +2,7 @@ const firebaseAuth = require("firebase/auth");
 const SignInResponse = require("./SignInResponse");
 const User = require("./User");
 
-const { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } =
+const { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateCurrentUser } =
 	firebaseAuth;
 
 module.exports = class AuthHelper {
@@ -35,4 +35,6 @@ module.exports = class AuthHelper {
 	});
 
 	logout = (_) => signOut(this.#auth);
+
+	// setAdmin = uid => updateCurrentUser()
 };
