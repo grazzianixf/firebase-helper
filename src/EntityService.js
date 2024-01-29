@@ -21,21 +21,24 @@ module.exports = class EntityService {
 
 	getPaths = id => {
 		let paths = []
-		let initialPaths = this.#pathPattern.split("/")
 
-		initialPaths.forEach(p => {
-			if (p === ":uid") {
-				if (this.#uid) {
-					paths.push(this.#uid)
+		if (this.#pathPattern) {
+			let initialPaths = this.#pathPattern.split("/")
+	
+			initialPaths.forEach(p => {
+				if (p === ":uid") {
+					if (this.#uid) {
+						paths.push(this.#uid)
+					}
+				} else if (p === ":id") {
+					if (id) {
+						paths.push(id)
+					}
+				} else {
+					paths.push(p)
 				}
-			} else if (p === ":id") {
-				if (id) {
-					paths.push(id)
-				}
-			} else {
-				paths.push(p)
-			}
-		})
+			})
+		}
 
 		return paths
 	}
