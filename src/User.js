@@ -9,6 +9,7 @@ module.exports = class User {
 	#photoURL = null;
 	#isAnonymous = null;
 	#tenantId = null;
+	#claims = [];
 
 	constructor(userCredential) {
 		let user =
@@ -20,6 +21,22 @@ module.exports = class User {
 		this.#email = user.email;
 	}
 
+    addClaim(claim) {
+        if (this.#claims.indexOf(claim) == -1) {
+            this.#claims.push(claim);
+        }
+
+        return this.claims
+    }
+
+    addClaims(claims) {
+        if (Array.isArray(claims) && claims.length > 0) {
+			claims.map(c => this.addClaim(c));            
+        }
+
+        return this.claims
+    }		
+
 	toString = () => Utils.Object.toString(this, "uid", "email");
 
 	get uid() {
@@ -29,4 +46,8 @@ module.exports = class User {
 	get email() {
 		return this.#email;
 	}
+
+    get claims() {
+        return this.#claims;
+    }
 };
