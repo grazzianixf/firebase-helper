@@ -49,7 +49,7 @@ module.exports = class EntityService {
 
 	post = obj => this.#firestoreHelper.post(this.#mainCollection, obj, ...this.getPaths())
 
-	put = obj => this.#firestoreHelper.put(this.#mainCollection, obj, ...this.getPaths(obj.id))
+	put = (id, obj) => this.#firestoreHelper.put(this.#mainCollection, obj, ...this.getPaths(id))
 
 	delete = id => this.#firestoreHelper.delete(this.#mainCollection, ...this.getPaths(id))
 };
