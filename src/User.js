@@ -3,6 +3,7 @@ const { Utils } = require("@grazzianixf/sdk");
 module.exports = class User {
 	#uid = null;
 	#displayName = null;
+	#name = null;
 	#email = null;
 	#emailVerified = null;
 	#phoneNumber = null;
@@ -19,6 +20,7 @@ module.exports = class User {
 
 		this.#uid = user.uid;
 		this.#email = user.email;
+		this.#name = user.name;
 	}
 
     addClaim(claim) {
@@ -46,6 +48,10 @@ module.exports = class User {
 	get email() {
 		return this.#email;
 	}
+
+	get name() {
+		return this.#name;
+	}	
 
     get claims() {
         return this.#claims;
