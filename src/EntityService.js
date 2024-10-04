@@ -1,3 +1,5 @@
+const { Object } = require("../../sdk/src/Utils");
+
 module.exports = class EntityService {
 	#firestoreHelper = null;
 	#uid = null;
@@ -19,37 +21,31 @@ module.exports = class EntityService {
 		return this.#mainCollection;
 	}
 
-	getPaths = id => {
+	getPaths = params => {
 		let paths = []
 
 		if (this.#pathPattern) {
-			let initialPaths = this.#pathPattern.split("/")
-	
-			initialPaths.forEach(p => {
-				if (p === ":uid") {
-					if (this.#uid) {
-						paths.push(this.#uid)
-					}
-				} else if (p === ":id") {
-					if (id) {
-						paths.push(id)
-					}
-				} else {
-					paths.push(p)
+			let path = this.#pathPattern.replace(":uid", this.#uid);
+
+			if (params && Object.isObject(params)) {
+				for (const key in params) {
+					path = path.replace(`:${key}`, params[key]);
 				}
-			})
+			}
+
+			paths = path.split("/");
 		}
 
 		return paths
 	}
 
-	getAll = _ => this.#firestoreHelper.getDocsByPath(this.#mainCollection, ...this.getPaths())
+	getAll = params => this.#firestoreHelper.getDocsByPath(this.#mainCollection, ...this.getPaths({ ...params, id: '' }))
 
-	getById = id => this.#firestoreHelper.getById(this.#mainCollection, ...this.getPaths(id))
+	getById = params => this.#firestoreHelper.getById(this.#mainCollection, ...this.getPaths(params))
 
-	post = obj => this.#firestoreHelper.post(this.#mainCollection, obj, ...this.getPaths())
+	post = (obj, params) => this.#firestoreHelper.post(this.#mainCollection, obj, ...this.getPaths({ ...params, id: '' }))
 
-	put = (id, obj) => this.#firestoreHelper.put(this.#mainCollection, obj, ...this.getPaths(id))
+	put = (obj, params) => this.#firestoreHelper.put(this.#mainCollection, obj, ...this.getPaths(params))
 
-	delete = id => this.#firestoreHelper.delete(this.#mainCollection, ...this.getPaths(id))
+	delete = params => this.#firestoreHelper.delete(this.#mainCollection, ...this.getPaths(params))
 };
