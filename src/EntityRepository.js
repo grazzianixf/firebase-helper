@@ -1,6 +1,6 @@
 const { Object } = require("../../sdk/src/Utils");
 
-module.exports = class EntityService {
+module.exports = class EntityRepository {
 	#firestoreHelper = null;
 	#uid = null;
 	#mainCollection = null;
