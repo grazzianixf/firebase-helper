@@ -43,7 +43,10 @@ module.exports = class EntityRepository {
 
 	getById = params => this.#firestoreHelper.getById(this.#mainCollection, ...this.getPaths(params))
 
-	post = (obj, params) => this.#firestoreHelper.post(this.#mainCollection, obj, ...this.getPaths({ ...params, id: '' }))
+	post = (obj, params) => {
+		let { id, ...rest } = obj;
+		return this.#firestoreHelper.post(this.#mainCollection, rest, ...this.getPaths({ ...params, id: '' }))
+	}
 
 	put = (obj, params) => this.#firestoreHelper.put(this.#mainCollection, obj, ...this.getPaths(params))
 
