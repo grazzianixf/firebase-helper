@@ -2,6 +2,7 @@ const FirestoreHelper = require("./FirestoreHelper");
 const AuthHelper = require("./AuthHelper");
 const InitializeHelper = require("./InitializeHelper");
 const EntityRepository = require("./EntityRepository");
+const Utils = require("./Utils")
 
 const User = require("./User");
 
@@ -14,5 +15,6 @@ module.exports = {
 	AuthHelper,
 	FirestoreHelper,
 	EntityRepository,
+	Utils,
 	Entities
 };
