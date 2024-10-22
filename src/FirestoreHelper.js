@@ -92,6 +92,17 @@ module.exports = class FirestoreHelper {
 		return resultList;		
 	};
 
+	query = (collectionName, searchParams = [], ...pathSegments) => {
+		const collectionRef = collection(this.#firestore, collectionName, ...pathSegments);
+		let searchParamsArray = [];
+		searchParams.forEach(({ field, operator, value }) =>
+			searchParamsArray.push(where(field, operator, value))
+		);
+		
+		let q = query(collectionRef, ...searchParamsArray);
+		return getDocs(q);
+	};	
+
 	get app() {
 		return this.#app;
 	}

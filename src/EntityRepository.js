@@ -51,4 +51,6 @@ module.exports = class EntityRepository {
 	put = (obj, params) => this.#firestoreHelper.put(this.#mainCollection, obj, ...this.getPaths(params))
 
 	delete = params => this.#firestoreHelper.delete(this.#mainCollection, ...this.getPaths(params))
+
+	query = (filters = [], params) => this.#firestoreHelper.query(this.#mainCollection, filters, ...this.getPaths(params))
 };
