@@ -53,7 +53,7 @@ module.exports = class FirestoreHelper {
 			...doc.data(),
 		}));
 
-		return resultList;		
+		return resultList;
 	}
 
 	post = (collectionName, obj, ...pathSegments) =>
@@ -79,7 +79,7 @@ module.exports = class FirestoreHelper {
 		searchParams.forEach(({ field, operator, value }) =>
 			searchParamsArray.push(where(field, operator, value))
 		);
-		
+
 		let q = query(collectionRef, ...searchParamsArray);
 		// console.log('searchParamsArray', searchParamsArray)
 		const snapshot = await getDocs(q);
@@ -89,7 +89,7 @@ module.exports = class FirestoreHelper {
 			...doc.data(),
 		}));
 
-		return resultList;		
+		return resultList;
 	};
 
 	query = (collectionName, searchParams = [], ...pathSegments) => {
@@ -98,10 +98,18 @@ module.exports = class FirestoreHelper {
 		searchParams.forEach(({ field, operator, value }) =>
 			searchParamsArray.push(where(field, operator, value))
 		);
-		
+
 		let q = query(collectionRef, ...searchParamsArray);
-		return getDocs(q);
-	};	
+		return getDocs(q)
+			.then(snapshot =>
+				new Promise(resolve => resolve(
+					snapshot.docs.map(doc => ({
+						id: doc.id,
+						// ref: doc.ref,
+						...doc.data(),
+					})))
+				))
+	};
 
 	get app() {
 		return this.#app;
